@@ -9,6 +9,14 @@ Ok, here you can save predetermined FFmpeg command presets, then never edit them
 <img width="653" height="648" alt="image" src="https://github.com/user-attachments/assets/b6d15f3a-1e2b-4ad3-97d0-8c00af3b69bd" />
 
 
+---
+
+
+You can also save commands that need to be edited, such as clipping video timestamps, and easily edit them on the go.
+
+
+<img width="638" height="491" alt="image" src="https://github.com/user-attachments/assets/965d3e32-48e2-4d10-ac20-ac7d53177151" />
+
 
 
 ## Templates
