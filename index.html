@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="/src/styles.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BlueCheese FFmpeg</title>
+    <script type="module" src="/src/main.ts" defer></script>
+  </head>
+
+  <body>
+    <main class="app-shell">
+      <section id="dropZone" class="drop-zone">
+        <div class="drop-title">Click here, or drop a media file here</div>
+        <div id="fileLabel" class="drop-path">No file selected</div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header">
+          <h2>Command source</h2>
+          <button id="helpButton" class="secondary-button" type="button">Template help</button>
+        </div>
+
+        <label class="radio-row">
+          <input id="savedMode" type="radio" name="commandSource" checked />
+          <span>Use saved preset</span>
+        </label>
+
+        <div id="presetArea" class="preset-area">
+          <div id="presetList" class="preset-list" role="radiogroup" aria-label="Saved presets"></div>
+          <div class="button-row">
+            <button id="addPresetButton" type="button">Add</button>
+            <button id="editPresetButton" type="button">Edit</button>
+            <button id="deletePresetButton" type="button">Delete</button>
+          </div>
+        </div>
+
+        <label class="radio-row one-time-toggle">
+          <input id="oneTimeMode" type="radio" name="commandSource" />
+          <span>Use one-time command</span>
+        </label>
+
+        <div id="oneTimeArea" class="one-time-area is-disabled">
+          <label>
+            <span>One-time command template</span>
+            <textarea id="oneTimeCommand" rows="1" placeholder='ffmpeg -i "{input}" ... "{output}"'></textarea>
+          </label>
+
+          <label>
+            <span>One-time output pattern (No need to touch this)</span>
+            <input id="oneTimeOutput" type="text" value="{name}_converted{ext}" />
+          </label>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Output location</h2>
+        <label class="radio-row">
+          <input id="originalFolderMode" type="radio" name="outputMode" checked />
+          <span>Save to original folder</span>
+        </label>
+
+        <div class="path-row">
+          <label class="radio-row">
+            <input id="customFolderMode" type="radio" name="outputMode" />
+            <span>Save to path</span>
+          </label>
+          <input id="customOutputDir" type="text" placeholder="Choose output folder" disabled />
+          <button id="browseOutputButton" type="button" disabled>Browse</button>
+        </div>
+      </section>
+
+      <section class="action-row">
+        <button id="runButton" class="primary-button" type="button">Run</button>
+        <span id="statusLabel">Ready</span>
+      </section>
+    </main>
+
+    <dialog id="presetDialog">
+      <form method="dialog" class="dialog-form">
+        <h2 id="presetDialogTitle">Preset</h2>
+        <label>
+          <span>Title</span>
+          <input id="presetTitleInput" type="text" />
+        </label>
+        <label>
+          <span>Command template</span>
+          <textarea id="presetCommandInput" rows="4"></textarea>
+        </label>
+        <label>
+          <span>Output pattern</span>
+          <input id="presetOutputInput" type="text" />
+        </label>
+        <div class="dialog-actions">
+          <button value="cancel" type="submit">Cancel</button>
+          <button value="default" type="submit" class="primary-button">Save</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="helpDialog">
+      <form method="dialog" class="dialog-form help-dialog">
+        <h2>Template help</h2>
+        <p>Saved presets and one-time commands use the same placeholders.</p>
+        <dl>
+          <dt>{input}</dt><dd>Full input file path</dd>
+          <dt>{output}</dt><dd>Full output file path</dd>
+          <dt>{name}</dt><dd>File name without extension</dd>
+          <dt>{ext}</dt><dd>Original extension, including dot</dd>
+          <dt>{folder}</dt><dd>Original input folder</dd>
+          <dt>{output_dir}</dt><dd>Selected output folder</dd>
+        </dl>
+        <p>Example command:</p>
+        <code>ffmpeg -i "{input}" -c copy -an "{output}"</code>
+        <p>Example output pattern:</p>
+        <code>{name}_converted{ext}</code>
+        <div class="dialog-actions">
+          <button value="default" type="submit" class="primary-button">Close</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="runDialog">
+      <form method="dialog" class="dialog-form run-dialog">
+        <div class="run-dialog-header">
+          <h2 id="runDialogTitle">Running FFmpeg</h2>
+          <span id="runDialogStatus">Running...</span>
+        </div>
+        <pre id="logOutput"></pre>
+        <div class="dialog-actions">
+          <button id="closeRunDialogButton" value="default" type="submit" disabled>Close</button>
+        </div>
+      </form>
+    </dialog>
+  </body>
+</html>

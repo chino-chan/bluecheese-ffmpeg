@@ -1,0 +1,57 @@
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Frontend dependencies/build output
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# Rust/Tauri build output
+src-tauri/target/
+src-tauri/gen/schemas/
+src-tauri/target-gen/
+
+# Unused generated/mobile scaffold assets for this Windows-only app
+src/assets/
+src-tauri/icons/android/
+src-tauri/icons/ios/
+src-tauri/icons/icon.icns
+
+# Local bundled FFmpeg binary for builds
+ffmpeg/
+
+# Runtime data created by the app
+presets.json
+settings.json
+
+# Release artifacts created manually
+release/
+releases/
+*.zip
+*.7z
+*.msi
+*.exe
+!src-tauri/icons/icon.ico
+
+# Temporary extracted/test files
+extracted-*.png
+tmp/
+temp/
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
