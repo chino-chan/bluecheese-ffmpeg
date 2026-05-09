@@ -15,9 +15,7 @@ This is made for that in mind. You can save predetermined FFmpeg command presets
 
 Template formatting is used for both saved presets & one-time-commands. 
 
-Don't complain to me! Be grateful I give you the option to use a one-time command!
-
-This is supposed to be a preset GUI!
+Don't complain to me! This is supposed to be a preset GUI!
 
 ```text
 {input}       Full input file path
