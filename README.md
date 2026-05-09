@@ -6,7 +6,7 @@ You would like a GUI but want to keep the flexibility of commandline?.
 
 Ok, here you can save predetermined FFmpeg command presets, then never edit them again. Just by using templates it will replace the filenames directly. You can now drag and drop and pick the command preset you want to use. Easy life. However, make sure to read the cheat-sheet to format the command presets correctly. 
 
-<img width="659" height="603" alt="image" src="https://github.com/user-attachments/assets/1c1919ac-240f-4875-b2fd-277ba72e2fc4" />
+<img width="653" height="648" alt="image" src="https://github.com/user-attachments/assets/b6d15f3a-1e2b-4ad3-97d0-8c00af3b69bd" />
 
 
 
