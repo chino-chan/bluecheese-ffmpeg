@@ -1,14 +1,13 @@
 # BlueCheese FFmpeg
 
-Are you tired of having to open CMD and copypaste the same FFmpeg commands you always use? Having to edit in the filenames everytime? You would like a GUI but want to keep the flexibility of commandline?.
+Tired of having to open CMD and copypaste the same FFmpeg commands you always use?
 
-....
+You would like a GUI but want to keep the flexibility of commandline?.
 
-Well, this is made for that in mind. You can save predetermined FFmpeg command presets, then never edit them again, just by using templates it will replace the filenames directly. You can now drag and drop and pick the command preset you want to use. Easy life. 
+This is made for that in mind. You can save predetermined FFmpeg command presets, then never edit them again, just by using templates it will replace the filenames directly. You can now drag and drop and pick the command preset you want to use. Easy life. However, make sure to read the cheat-sheet to format the command preset correctly. 
 
-However, make sure to read the cheat-sheet to format the command preset correctly. 
+<img width="658" height="602" alt="image" src="https://github.com/user-attachments/assets/2a38dc7d-e511-492b-a1c3-f5dbc8e2264e" />
 
-<img width="638" height="648" alt="image" src="https://github.com/user-attachments/assets/7fecefe4-3f76-40cc-9aba-abd4d339aca2" />
 
 
 ## Templates
