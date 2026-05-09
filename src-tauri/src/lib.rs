@@ -194,6 +194,32 @@ fn replace_placeholders(template: &str, values: &HashMap<&str, String>) -> Strin
     })
 }
 
+fn unique_output_path(path: PathBuf) -> PathBuf {
+    if !path.exists() {
+        return path;
+    }
+
+    let parent = path.parent().map(Path::to_path_buf).unwrap_or_default();
+    let stem = path
+        .file_stem()
+        .and_then(|value| value.to_str())
+        .unwrap_or("output");
+    let extension = path.extension().and_then(|value| value.to_str());
+
+    for index in 1..10_000 {
+        let file_name = match extension {
+            Some(extension) if !extension.is_empty() => format!("{stem}({index}).{extension}"),
+            _ => format!("{stem}({index})"),
+        };
+        let candidate = parent.join(file_name);
+        if !candidate.exists() {
+            return candidate;
+        }
+    }
+
+    path
+}
+
 fn build_command(request: &RunRequest) -> Result<String, String> {
     let input_path = PathBuf::from(&request.input_path);
     if !input_path.exists() {
@@ -232,7 +258,7 @@ fn build_command(request: &RunRequest) -> Result<String, String> {
         },
         &values,
     );
-    let output = output_dir.join(output_name);
+    let output = unique_output_path(output_dir.join(output_name));
     values.insert("output", output.to_string_lossy().to_string());
 
     Ok(replace_placeholders(&request.command_template, &values))
@@ -305,6 +331,10 @@ fn ffmpeg_path(app: &AppHandle) -> Option<PathBuf> {
     None
 }
 
+fn has_overwrite_policy(args: &[String]) -> bool {
+    args.iter().any(|arg| matches!(arg.as_str(), "-y" | "-n"))
+}
+
 fn emit_reader(window: Window, reader: impl Read + Send + 'static) {
     thread::spawn(move || {
         let mut reader = BufReader::new(reader);
@@ -336,6 +366,10 @@ fn run_ffmpeg(app: AppHandle, window: Window, request: RunRequest) -> Result<Run
         if let Some(path) = ffmpeg_path(&app) {
             program = path.to_string_lossy().to_string();
         }
+    }
+
+    if !has_overwrite_policy(&args) {
+        args.insert(0, "-n".to_string());
     }
 
     let mut child = Command::new(&program)
@@ -393,4 +427,31 @@ pub fn run() {
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
+}
+
+#[cfg(test)]
+mod tests {
+    use super::unique_output_path;
+    use std::{fs, path::PathBuf, time::{SystemTime, UNIX_EPOCH}};
+
+    fn temp_test_dir() -> PathBuf {
+        let unique = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .unwrap()
+            .as_nanos();
+        std::env::temp_dir().join(format!("bluecheese-test-{unique}"))
+    }
+
+    #[test]
+    fn unique_output_path_appends_index_when_file_exists() {
+        let dir = temp_test_dir();
+        fs::create_dir_all(&dir).unwrap();
+        let original = dir.join("video_converted.mp4");
+        fs::write(&original, b"existing").unwrap();
+
+        let unique = unique_output_path(original);
+
+        assert_eq!(unique.file_name().unwrap(), "video_converted(1).mp4");
+        fs::remove_dir_all(dir).unwrap();
+    }
 }
